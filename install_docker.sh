@@ -1,18 +1,5 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
-
-Vagrant.configure("2") do |config|
-  config.vm.define "web01" do |web01|
-    web01.vm.box = "ubuntu/focal64"
-    web01.vm.hostname = "web01"
-    web01.vm.network "public_network", bridge: "Realtek USB FE Family Controller"
-    web01.vm.synced_folder "C:/vagrant", "/docker-compose" # Проброс docker-compose.yml с хоста
-    web01.vm.provider "virtualbox" do |vb|
-      vb.memory = "512"
-      vb.cpus = 1
-    end
-
-    web01.vm.provision "shell", inline: <<-SHELL
+!bin/bash
+    
       # Обновление пакетов
       sudo apt update
 
@@ -45,6 +32,3 @@ Vagrant.configure("2") do |config|
       # Проверка установки
       docker --version
       docker-compose --version
-    SHELL
-  end
-end
