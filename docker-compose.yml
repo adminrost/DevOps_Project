@@ -1,0 +1,21 @@
+services:
+  reverse-proxy:
+    container_name: traefik
+
+    # Official Traefik docker image
+    image: traefik:latest
+
+    restart: always
+
+    # Включает WEB UI без аутентификации --api.insecure=true
+    # Флаг --providers.docker в Traefik означает, что Traefik будет автоматически обнаруживать и настраивать маршруты для контейнеров Docker.
+    command: --api.insecure=true --providers.docker
+
+    # Проброс портов 
+    ports:
+      - "80:80" # HTTP PORT
+      - "8080:8080" # WEB UI PORT
+  
+    # Проброс Docker сокета для взаимодействия Traefik с контейнерами 
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
